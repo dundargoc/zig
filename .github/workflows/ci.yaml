@@ -10,22 +10,18 @@ concurrency:
   group: ${{ github.head_ref || github.run_id }}-${{ github.actor }}
   cancel-in-progress: true
 jobs:
-  x86_64-linux-debug:
+  x86_64-linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        type: [debug, release]
     timeout-minutes: 420
     runs-on: [self-hosted, Linux, x86_64]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       - name: Build and Test
-        run: sh ci/x86_64-linux-debug.sh
-  x86_64-linux-release:
-    timeout-minutes: 420
-    runs-on: [self-hosted, Linux, x86_64]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Build and Test
-        run: sh ci/x86_64-linux-release.sh
+        run: sh ci/x86_64-linux-${{ matrix.type }}.sh
   aarch64-linux-debug:
     timeout-minutes: 420
     runs-on: [self-hosted, Linux, aarch64]
