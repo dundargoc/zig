@@ -10,7 +10,7 @@ concurrency:
   group: ${{ github.head_ref || github.run_id }}-${{ github.actor }}
   cancel-in-progress: true
 jobs:
-  x86_64-linux:
+  linux:
     strategy:
       fail-fast: false
       matrix:
